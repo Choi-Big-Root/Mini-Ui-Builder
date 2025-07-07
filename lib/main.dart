@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mini_ui_builder/presentation/router/router.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,10 +10,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: const Placeholder(),
-      ),
+    return MaterialApp.router(
+     routerConfig: router,
     );
   }
 }
