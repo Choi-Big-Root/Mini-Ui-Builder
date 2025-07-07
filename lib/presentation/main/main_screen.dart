@@ -11,35 +11,43 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  bool isLeftPanelOpen = true;
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          flex: 1,
-          child: Stack(
-            children: [
-              WidgetSelectorPanel(),
-              Positioned(
-                top: 5,
-                right: 10,
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {});
-                  },
-                  child: Container(
-                    color: Colors.grey[200],
-                    width: 24,
-                    child: Icon(Icons.arrow_left),
-                  ),
-                ),
-              ),
-            ],
+        isLeftPanelOpen
+            ? Expanded(
+                flex: 2,
+                child: WidgetSelectorPanel(),
+              )
+            : SizedBox.shrink(),
+
+        // 왼쪽 Widget Selecotor 판넬을 표시,제거 할 수 있도록.
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              isLeftPanelOpen = !isLeftPanelOpen;
+            });
+          },
+          child: Container(
+            color: Colors.grey[200],
+            width: 24,
+            alignment: Alignment.center,
+            child: Icon(
+              isLeftPanelOpen ? Icons.arrow_left : Icons.arrow_right,
+            ),
           ),
         ),
-
-        Expanded(flex: 3, child: WidgetEditorView()),
-        Expanded(flex: 1, child: WidgetPropertyPanel()),
+        Expanded(
+          flex: 5,
+          child: WidgetEditorView(),
+        ),
+        Expanded(
+          flex: 3,
+          child: WidgetPropertyPanel(),
+        ),
       ],
     );
   }
