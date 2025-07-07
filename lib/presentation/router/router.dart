@@ -7,7 +7,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouterPath.main, // '/'
       name: 'main',
-      builder: (context, state) => MainScreen(),
+      builder: (context, state) => const MainScreen(),
     ),
   ],
   initialLocation: '/'

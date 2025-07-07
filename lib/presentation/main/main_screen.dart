@@ -18,11 +18,11 @@ class _MainScreenState extends State<MainScreen> {
     return Row(
       children: [
         isLeftPanelOpen
-            ? Expanded(
+            ? const Expanded(
                 flex: 2,
                 child: WidgetSelectorPanel(),
               )
-            : SizedBox.shrink(),
+            : const SizedBox.shrink(), // null 대신 사용 위젯.
 
         // 왼쪽 Widget Selecotor 판넬을 표시,제거 할 수 있도록.
         GestureDetector(
@@ -40,11 +40,11 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         ),
-        Expanded(
+        const Expanded(
           flex: 5,
           child: WidgetEditorView(),
         ),
-        Expanded(
+        const Expanded(
           flex: 3,
           child: WidgetPropertyPanel(),
         ),
