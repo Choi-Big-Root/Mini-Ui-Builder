@@ -7,24 +7,21 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mini_ui_builder/data/dto/selector_widget_dto.dart';
+import 'package:mini_ui_builder/data/source/widget_selector_remote_data_source.dart';
 
 import 'package:mini_ui_builder/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  test('fetchWidgetList returns a list of SelectorWidgetDto', () async {
+    final dataSource = WidgetSelectorRemoteDataSource();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    final result = await dataSource.fetchWidgetList();
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    expect(result, isA<List<SelectorWidgetDto>>());
+    expect(result.isNotEmpty, true); // 실제 데이터가 있다고 가정
+    expect(result.first.name, isNotEmpty); // DTO 내부 값 확인
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    print(result.toString());
   });
 }

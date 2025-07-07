@@ -17,4 +17,10 @@ class SelectorWidgetDto {
   Map<String, dynamic> toJson() {
     return {'name': name, 'icon': icon};
   }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return 'name : $name, icon : $icon';
+  }
 }
