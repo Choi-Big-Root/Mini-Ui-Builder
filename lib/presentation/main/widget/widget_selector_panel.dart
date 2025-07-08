@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mini_ui_builder/domain/model/editor_widget_item.dart';
 import 'package:mini_ui_builder/presentation/main/bloc/selected_widget/selected_widget_bloc.dart';
 import 'package:mini_ui_builder/presentation/main/bloc/selected_widget/selected_widget_event.dart';
 import 'package:mini_ui_builder/presentation/main/bloc/widget_selector/widget_selector_bloc.dart';
 import 'package:mini_ui_builder/presentation/main/bloc/widget_selector/widget_selector_state.dart';
+
+import '../../../domain/model/text_editor_widget_item.dart';
+import '../bloc/selected_widget/selected_widget_state.dart';
 
 class WidgetSelectorPanel extends StatefulWidget {
   const WidgetSelectorPanel({super.key});
@@ -51,27 +55,72 @@ class _WidgetSelectorPanelState extends State<WidgetSelectorPanel> {
                   final isSelected = index == selectedIndex;
                   return GestureDetector(
                     onTap: () {
-                      context.read<SelectedWidgetBloc>().add(SelectWidget(item));
+                      EditorWidgetItem editorWidgetItem;
+                      if(item.name == 'Text'){
+                        editorWidgetItem = TextEditorWidgetItem(
+                          widget: item,
+                          position: Offset.zero,
+                          text: '텍스트',
+                          fontSize: 20,
+                          color: Colors.black,
+                        );
+                      }else{
+                        //일단 테스트를 위해 대기.
+                        editorWidgetItem = TextEditorWidgetItem(
+                          widget: item,
+                          position: Offset.zero,
+                          text: '텍스트',
+                          fontSize: 20,
+                          color: Colors.black,
+                        );
+                      }
+
+                      context.read<SelectedWidgetBloc>().add(SelectWidget(editorWidgetItem));
                       setState(() {
                         selectedIndex = index;
                       });
                     },
-                    child: Card(
-                      color: isSelected? const Color(0xFF633BEB) : const Color(0xFF222222),
-                      child: Draggable( //처음 사용해보는 위젯 정리 필요.
-                        //드래그 시 전달할 데이터 객체
-                        data: item,
-                        // 드래그 중에 따라다니는 '피드백' UI : *피드백이란 사용자가 드래그 동작을 할때, 커서를 따라다니며 보여주는 시각적 UI를 의미.
-                        feedback: Material(
-                          //배경 투명
-                          color: Colors.transparent,
-                          child: Card(
-                            //드래그 중 보여질 Card의 배경색
-                            color: const Color(0xFF633BEB),
-                            // 드래그 피드백 사이즈 지정.
-                            child: SizedBox(
-                              width: 80,
-                              height: 120,
+                    child: BlocBuilder<SelectedWidgetBloc, SelectedWidgetState>(
+                      builder: (context, selectedState) {
+                        return Card(
+                          color: isSelected ? const Color(0xFF633BEB) : const Color(0xFF222222),
+                          child: Draggable<EditorWidgetItem>( // 처음 사용해 보는 위젯 정리 필요.
+                            // 드래그 시 전달할 데이터 객체: 항상 최신 설정값(selectedItem)
+                            data: (selectedState is WidgetSelected)
+                                ? selectedState.selectedItem
+                                : TextEditorWidgetItem(
+                                    widget: item,
+                                    position: Offset.zero,
+                                    text: '텍스트',
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                  ),
+                            //드래그 중에 따라다니는 '피드백' UI : *피드백이란 사용자가 드래그 동작을 할때, 커서를 따라다니며 보여주는 시각적 UI를 의미.
+                            feedback: Material(
+                              //배경 투명
+                              color: Colors.transparent,
+                              // 드래그 중 보여질 Card 위젯
+                              child: Card(
+                                color: const Color(0xFF633BEB),
+                                child: SizedBox(
+                                  width: 80,
+                                  height: 120,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(item.icon),
+                                      Text(
+                                        item.name,
+                                        style: const TextStyle(color: Color(0xFFC1C1C1)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // 드래그 중에 보여질 기존 위젯 설정.
+                            childWhenDragging: Opacity(
+                              opacity: 0.5,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -83,34 +132,20 @@ class _WidgetSelectorPanelState extends State<WidgetSelectorPanel> {
                                 ],
                               ),
                             ),
-                          ),
-                        ),
-                        // 드래그 중에 보여지 기존 위젯 투명도 설정
-                        childWhenDragging: Opacity(
-                          opacity: 0.5,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(item.icon),
-                              Text(
-                                item.name,
-                                style: const TextStyle(color: Color(0xFFC1C1C1)),
-                              ),
-                            ],
-                          ),
-                        ),
-                        //드래그 하지 않을때 보여질 위젯 설정.
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(item.icon),
-                            Text(
-                              item.name,
-                              style: const TextStyle(color: Color(0xFFC1C1C1)),
+                            // 드래그 하지 않았을때 보여질 위젯 설정.
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(item.icon),
+                                Text(
+                                  item.name,
+                                  style: const TextStyle(color: Color(0xFFC1C1C1)),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        );
+                      },
                     ),
                   );
                 },

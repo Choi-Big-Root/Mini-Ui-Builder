@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../domain/model/editor_widget_item.dart';
 import '../../../domain/model/selector_widget_model.dart';
+import '../../../domain/model/text_editor_widget_item.dart';
 import '../bloc/editor_view/editor_view_bloc.dart';
 import '../bloc/editor_view/editor_view_event.dart';
 import '../bloc/editor_view/editor_view_state.dart';
@@ -27,7 +29,7 @@ class _WidgetEditorViewState extends State<WidgetEditorView> {
         return LayoutBuilder(
           builder: (context, constraints) {
             // SelectorWidgetModel 타입의 드래그 타겟 선언 : Draggable 의 데이터를 사용하기 위해.
-            return DragTarget<SelectorWidgetModel>(
+            return DragTarget<EditorWidgetItem>(
               //details 의 주요 속성은 data,offset,wasAccepted 존재
               //data : 드개그된 위젯 데이터 자체
               //offset : 드래그된 위치 [스크린 전체 기준 좌표]
@@ -53,18 +55,21 @@ class _WidgetEditorViewState extends State<WidgetEditorView> {
                       height: double.infinity,
                     ),
                     ...items.map<Widget>((item) {
-                      // 아이템 리스트를 순회하며 각각의 위젯을 화면에 표시
-                      return Positioned(
-                        left: item.position.dx, // 위젯의 X좌표값
-                        top: item.position.dy,  // 위젯의 Y좌표값
-                        child: Card(
-                          color: Colors.amber[100],
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(item.widget.name),
+                      if (item is TextEditorWidgetItem) {
+                        return Positioned(
+                          left: item.position.dx, // 위젯 X값
+                          top: item.position.dy,  // 위젯 Y값
+                          child: Text(
+                            item.text,
+                            style: TextStyle(
+                              fontSize: item.fontSize,
+                              color: item.color,
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      }
+                      // ...다른 위젯 타입 분기
+                      return const SizedBox.shrink();
                     }),
                   ],
                 );
