@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mini_ui_builder/data/repository/widget_selector_repository_impl.dart';
 import 'package:mini_ui_builder/data/source/widget_selector_remote_data_source.dart';
 import 'package:mini_ui_builder/domain/usecase/fetch_selector_widget_list_usecase.dart';
+import 'package:mini_ui_builder/presentation/main/bloc/editor_view/editor_view_bloc.dart';
 import 'package:mini_ui_builder/presentation/main/bloc/selected_widget/selected_widget_bloc.dart';
 import 'package:mini_ui_builder/presentation/main/bloc/widget_selector/widget_selector_bloc.dart';
 import 'package:mini_ui_builder/presentation/main/bloc/widget_selector/widget_selector_event.dart';
@@ -35,6 +36,8 @@ class _MainScreenState extends State<MainScreen> {
         ),
 
         BlocProvider(create: (context) => SelectedWidgetBloc()),
+
+        BlocProvider(create: (context) => EditorViewBloc()),
       ],
       child: Row(
         children: [
