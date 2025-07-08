@@ -4,4 +4,5 @@ environment:
   sdk: ">=2.17.0 <3.0.0"
 dependencies:
   shelf: ^1.4.2
+  shelf_cors_headers: ^0.1.5
   shelf_router: ^1.1.4
