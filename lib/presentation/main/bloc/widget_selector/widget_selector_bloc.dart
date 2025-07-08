@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mini_ui_builder/domain/usecase/fetch_selector_widget_list_usecase.dart';
-import 'package:mini_ui_builder/presentation/main/bloc/widget_selector_event.dart';
-import 'package:mini_ui_builder/presentation/main/bloc/widget_selector_state.dart';
+import 'package:mini_ui_builder/presentation/main/bloc/widget_selector/widget_selector_event.dart';
+import 'package:mini_ui_builder/presentation/main/bloc/widget_selector/widget_selector_state.dart';
 
 // Bloc 클래스 정의 : WidgetSelectorEvent 이벤트를 받아 WidgetSelectorState 상태를 관리
 class WidgetSelectorBloc extends Bloc<WidgetSelectorEvent,WidgetSelectorState> {

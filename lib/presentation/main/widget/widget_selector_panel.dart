@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mini_ui_builder/presentation/main/bloc/widget_selector_bloc.dart';
-import 'package:mini_ui_builder/presentation/main/bloc/widget_selector_state.dart';
+import 'package:mini_ui_builder/presentation/main/bloc/widget_selector/widget_selector_bloc.dart';
+import 'package:mini_ui_builder/presentation/main/bloc/widget_selector/widget_selector_state.dart';
 
 class WidgetSelectorPanel extends StatefulWidget {
   const WidgetSelectorPanel({super.key});
