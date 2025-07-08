@@ -58,15 +58,58 @@ class _WidgetSelectorPanelState extends State<WidgetSelectorPanel> {
                     },
                     child: Card(
                       color: isSelected? const Color(0xFF633BEB) : const Color(0xFF222222),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(item.icon), // 추후 처리.
-                          Text(
-                            item.name,
-                            style: const TextStyle(color: Color(0xFFC1C1C1)),
+                      child: Draggable( //처음 사용해보는 위젯 정리 필요.
+                        //드래그 시 전달할 데이터 객체
+                        data: item,
+                        // 드래그 중에 따라다니는 '피드백' UI : *피드백이란 사용자가 드래그 동작을 할때, 커서를 따라다니며 보여주는 시각적 UI를 의미.
+                        feedback: Material(
+                          //배경 투명
+                          color: Colors.transparent,
+                          child: Card(
+                            //드래그 중 보여질 Card의 배경색
+                            color: const Color(0xFF633BEB),
+                            // 드래그 피드백 사이즈 지정.
+                            child: SizedBox(
+                              width: 80,
+                              height: 120,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(item.icon),
+                                  Text(
+                                    item.name,
+                                    style: const TextStyle(color: Color(0xFFC1C1C1)),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ],
+                        ),
+                        // 드래그 중에 보여지 기존 위젯 투명도 설정
+                        childWhenDragging: Opacity(
+                          opacity: 0.5,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(item.icon),
+                              Text(
+                                item.name,
+                                style: const TextStyle(color: Color(0xFFC1C1C1)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        //드래그 하지 않을때 보여질 위젯 설정.
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(item.icon),
+                            Text(
+                              item.name,
+                              style: const TextStyle(color: Color(0xFFC1C1C1)),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
