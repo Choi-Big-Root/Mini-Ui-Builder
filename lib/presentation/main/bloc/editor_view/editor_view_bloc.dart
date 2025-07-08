@@ -17,7 +17,7 @@ class EditorViewBloc extends Bloc<EditorViewEvent,EditorViewState> {
 
       // 상태를 변경하면서 리스트 복사본을 전달
       // _items 를 직접 전달하지 않는 이유는 외부에서 참조하지 못하도록 불변성을 지키기 위해. 복사본을 전달한다.
-      emit(EditorViewUpdate(List.from(_items)));
+      emit(EditorViewUpdated(List.from(_items)));
     });
   }
 }
