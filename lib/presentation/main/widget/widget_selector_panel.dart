@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mini_ui_builder/presentation/main/bloc/selected_widget/selected_widget_bloc.dart';
+import 'package:mini_ui_builder/presentation/main/bloc/selected_widget/selected_widget_event.dart';
 import 'package:mini_ui_builder/presentation/main/bloc/widget_selector/widget_selector_bloc.dart';
 import 'package:mini_ui_builder/presentation/main/bloc/widget_selector/widget_selector_state.dart';
 
@@ -49,7 +51,7 @@ class _WidgetSelectorPanelState extends State<WidgetSelectorPanel> {
                   final isSelected = index == selectedIndex;
                   return GestureDetector(
                     onTap: () {
-                      print('일단 대기 아이템 클릭 ${item.name}');
+                      context.read<SelectedWidgetBloc>().add(SelectWidget(item));
                       setState(() {
                         selectedIndex = index;
                       });
